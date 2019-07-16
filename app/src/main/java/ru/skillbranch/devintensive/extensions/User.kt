@@ -1,8 +1,8 @@
 package ru.skillbranch.devintensive.extensions
 
-import devintensive.skillbranch.ru.devintensive.utils.Utils
 import ru.skillbranch.devintensive.models.User
 import ru.skillbranch.devintensive.models.UserView
+import ru.skillbranch.devintensive.utils.Utils
 
 fun User.toUserView() : UserView {
     val nickName = Utils.transliteration("$firstName $lastName")
