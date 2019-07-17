@@ -44,64 +44,30 @@ object Utils {
 
     fun toInitials(firstName: String?, lastName: String?): String? {
 
-        var oneFirstName: String? = ""
-        var oneLastName: String? = ""
-        var inicial: String? = ""
+        val first: String = (firstName?.trim()?.firstOrNull() ?: "").toString()
+        val last: String = (lastName?.trim()?.firstOrNull() ?: "").toString()
 
-        if (!firstName.isNullOrBlank() && firstName != "null") {
-            oneFirstName = firstName.get(0).toString()//replaseInitials(firstName.get(0).toString())
-        } else oneFirstName = ""
+        if (first == "" && last == "") return null
+        return "$first$last".toUpperCase()
 
-        if (!lastName.isNullOrBlank() && lastName != "null") {
-            oneLastName = lastName.get(0).toString()//replaseInitials(lastName.get(0).toString())
-        } else oneLastName = ""
 
-        if (firstName.isNullOrBlank() && lastName.isNullOrBlank())
-            inicial = null
-        else
-            inicial = oneFirstName + oneLastName
-
-        return inicial
-    }
-
-    fun replaseInitials(simbol: String): String {
-        var simbolExit: String? = ""
-        when (simbol) {
-            "а" -> simbolExit = "a"
-            "б" -> simbolExit = "b"
-            "в" -> simbolExit = "v"
-            "г" -> simbolExit = "g"
-            "д" -> simbolExit = "d"
-            "е" -> simbolExit = "e"
-            "ё" -> simbolExit = "e"
-            "ж" -> simbolExit = "zh"
-            "з" -> simbolExit = "z"
-            "и" -> simbolExit = "i"
-            "й" -> simbolExit = "i"
-            "к" -> simbolExit = "k"
-            "л" -> simbolExit = "l"
-            "м" -> simbolExit = "m"
-            "н" -> simbolExit = "n"
-            "о" -> simbolExit = "o"
-            "п" -> simbolExit = "p"
-            "р" -> simbolExit = "r"
-            "с" -> simbolExit = "s"
-            "т" -> simbolExit = "t"
-            "у" -> simbolExit = "u"
-            "ф" -> simbolExit = "f"
-            "х" -> simbolExit = "h"
-            "ц" -> simbolExit = "c"
-            "ч" -> simbolExit = "ch"
-            "ш" -> simbolExit = "sh"
-            "щ" -> simbolExit = "sh'"
-            "ъ" -> simbolExit = ""
-            "ы" -> simbolExit = "i"
-            "ь" -> simbolExit = ""
-            "э" -> simbolExit = "e"
-            "ю" -> simbolExit = "yu"
-            "я" -> simbolExit = "ya"
-            else -> simbolExit = simbol
-        }
-        return simbolExit
+//        var oneFirstName: String? = ""
+//        var oneLastName: String? = ""
+//        var inicial: String? = ""
+//
+//        if (!firstName.isNullOrBlank() && firstName != "null") {
+//            oneFirstName = firstName.get(0).toString()//replaseInitials(firstName.get(0).toString())
+//        } else oneFirstName = ""
+//
+//        if (!lastName.isNullOrBlank() && lastName != "null") {
+//            oneLastName = lastName.get(0).toString()//replaseInitials(lastName.get(0).toString())
+//        } else oneLastName = ""
+//
+//        if (firstName.isNullOrBlank() && lastName.isNullOrBlank())
+//            inicial = null
+//        else
+//            inicial = oneFirstName + oneLastName
+//
+//        return inicial
     }
 }
