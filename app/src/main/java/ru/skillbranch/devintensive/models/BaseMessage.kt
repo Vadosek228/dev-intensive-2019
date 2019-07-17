@@ -9,14 +9,13 @@ abstract class BaseMessage(
     val isInkoming: Boolean = false,
     val date: Date = Date() //когда было отправлено сообщение){}
 ){
-    abstract fun formateMessage() : String
+    abstract fun formatMessage() : String
 
     //создание абстрактной фабрики, оторая позволит создавать объекты разного типа
     companion object AbstractFactory{
         var lastId = -1
 
-        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type:String="text", payload:Any?)
-                : BaseMessage{
+        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String="text", payload: Any?): BaseMessage{
             lastId++
             return when(type){
                 "image" -> ImageMessage("$lastId", from, chat, date = date, image = payload as String)
