@@ -1,5 +1,16 @@
 package ru.skillbranch.devintensive.utils
 
+import android.app.Activity
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.models.Bender
+
 
 val symbolMap = mapOf( "а" to "a", "б" to "b", "в" to "v", "г" to "g", "д" to "d", "е" to "e", "ё" to "e", "ж" to "zh",
     "з" to "z", "и" to "i", "й" to "i", "к" to "k", "л" to "l", "м" to "m", "н" to "n", "о" to "o", "п" to "p",
@@ -49,25 +60,24 @@ object Utils {
 
         if (first == "" && last == "") return null
         return "$first$last".toUpperCase()
+    }
 
+    fun Activity.hideKeyboard(activity:Activity){
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Найдите текущий фокусированный вид, чтобы мы могли получить из него правильный маркер окна.
+        var view = activity.getCurrentFocus()
+        //Если ни один вид в данный момент не имеет фокуса, создайте новый, просто чтобы мы могли извлечь из него маркер окна
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
 
-//        var oneFirstName: String? = ""
-//        var oneLastName: String? = ""
-//        var inicial: String? = ""
-//
-//        if (!firstName.isNullOrBlank() && firstName != "null") {
-//            oneFirstName = firstName.get(0).toString()//replaseInitials(firstName.get(0).toString())
-//        } else oneFirstName = ""
-//
-//        if (!lastName.isNullOrBlank() && lastName != "null") {
-//            oneLastName = lastName.get(0).toString()//replaseInitials(lastName.get(0).toString())
-//        } else oneLastName = ""
-//
-//        if (firstName.isNullOrBlank() && lastName.isNullOrBlank())
-//            inicial = null
-//        else
-//            inicial = oneFirstName + oneLastName
-//
-//        return inicial
+    fun sendMessage(benderObj : Bender, messageEt : EditText?, benderImage : ImageView?, textTxt : TextView?){
+        val (phrase, color) = benderObj.listenAnswer(messageEt?.text.toString().toLowerCase()) //приводим к нижнему регистору
+        messageEt?.setText("")
+        val (r,g,b) = color
+        benderImage?.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
+        textTxt?.text = phrase
     }
 }
