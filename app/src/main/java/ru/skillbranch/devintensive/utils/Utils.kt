@@ -1,14 +1,10 @@
 package ru.skillbranch.devintensive.utils
 
-import android.app.Activity
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Bender
 
 
@@ -62,19 +58,8 @@ object Utils {
         return "$first$last".toUpperCase()
     }
 
-    fun Activity.hideKeyboard(activity:Activity){
-        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        //Найдите текущий фокусированный вид, чтобы мы могли получить из него правильный маркер окна.
-        var view = activity.getCurrentFocus()
-        //Если ни один вид в данный момент не имеет фокуса, создайте новый, просто чтобы мы могли извлечь из него маркер окна
-        if (view == null) {
-            view = View(activity)
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
-    }
-
     fun sendMessage(benderObj : Bender, messageEt : EditText?, benderImage : ImageView?, textTxt : TextView?){
-        val (phrase, color) = benderObj.listenAnswer(messageEt?.text.toString().toLowerCase()) //приводим к нижнему регистору
+        val (phrase, color) = benderObj.validationResponseFormat(messageEt?.text.toString())//.toLowerCase()) //приводим к нижнему регистору
         messageEt?.setText("")
         val (r,g,b) = color
         benderImage?.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)

@@ -18,7 +18,6 @@ class Bender (var status:Status = Status.NORMAL, var question:Question = Questio
         return if(question.answer.contains(answer)) {
             question = question.nextQuestion()
             "Отлично - ты справился\n${question.question}" to status.color
-
         }
         else {
             if(status.nextStatus() == Status.NORMAL) {
@@ -30,7 +29,50 @@ class Bender (var status:Status = Status.NORMAL, var question:Question = Questio
                 "Это неправильный ответ!\n${question.question}" to status.color
             }
         }
+
     }
+
+    //функция для проверки условий по вводу
+    fun validationResponseFormat(answer: String) : Pair<String, Triple<Int, Int, Int>> =
+        when(question){
+            Question.NAME -> {
+                if (answer[0].isUpperCase()){
+                    listenAnswer(answer)
+                }else{
+                    "Имя должно начинаться с заглавной буквы\n${question.question}" to status.color
+                }
+            }
+            Question.PROFESSION -> {
+                if (answer[0].isLowerCase()){
+                    listenAnswer(answer)
+                }else{
+                    "Профессия должна начинаться со строчной eбуквы\n${question.question}" to status.color
+                }
+            }
+            Question.MATERIAL -> {
+                if (answer.matches("[\\D]+".toRegex())){
+                    listenAnswer(answer)
+                }else{
+                    "Материал не должен содержать цифр\n${question.question}" to status.color
+                }
+            }
+            Question.BDAY -> {
+                if(answer.matches("[^\\D]+".toRegex())){
+                    listenAnswer(answer)
+                }else{
+                    "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
+                }
+            }
+            Question.SERIAL -> {
+                if(answer.matches("[^\\D]+".toRegex()) && answer.length == 7){
+                    listenAnswer(answer)
+                }else{
+                    "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
+                }
+            }
+            Question.IDLE -> "На этом все, вопросов больше нет" to status.color
+        }
+
 
     enum class Status(val color: Triple<Int, Int, Int>){
         NORMAL(Triple(255, 255, 255)),
@@ -68,7 +110,7 @@ class Bender (var status:Status = Status.NORMAL, var question:Question = Questio
         {
             override fun nextQuestion(): Question = IDLE
         },
-        IDLE("Отлично - ты справился\nНа этом все, вопросов больше нет", listOf())
+        IDLE("На этом все, вопросов больше нет", listOf()) //Отлично, ты справился\n
         {
             override fun nextQuestion(): Question = IDLE
         };
