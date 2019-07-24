@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,10 +14,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.models.Bender
 import android.view.inputmethod.EditorInfo
 import ru.skillbranch.devintensive.extensions.hideKeyboard
-import ru.skillbranch.devintensive.utils.Utils.sendMessage
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
 
     lateinit var benderImage : ImageView
     lateinit var textTxt : TextView
@@ -45,19 +45,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = benderObj.askQuestion()
 
-        //для скрытия клавиатуры, нажав на кнопку DONE, а также отправки сообщения
-        messageEt.setOnEditorActionListener { _, actionId, _ ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    sendMessage(benderObj = benderObj, messageEt = messageEt, benderImage = benderImage, textTxt = textTxt)
-                    hideKeyboard(activity = this)
-                    true
-                }
-                else -> false
-            }
-        }
+//        //для скрытия клавиатуры, нажав на кнопку DONE, а также отправки сообщения
+//        messageEt.setOnEditorActionListener { _, actionId, _ ->
+//            return@setOnEditorActionListener when (actionId) {
+//                EditorInfo.IME_ACTION_DONE -> {
+//                    sendMessage(benderObj = benderObj, messageEt = messageEt, benderImage = benderImage, textTxt = textTxt)
+//                    hideKeyboard(activity = this)
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
 
         sendBtn.setOnClickListener(this)
+
+        messageEt.setOnEditorActionListener(this)
     }
 
     override fun onStart() {
@@ -91,9 +93,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View?){
         //проверка не равен ли нулл и равен ли данному id
-        if(view?.id == R.id.iv_send){
-            sendMessage(benderObj = benderObj, messageEt = messageEt, benderImage = benderImage, textTxt = textTxt)
-            hideKeyboard(activity = this)
+//        if(view?.id == R.id.iv_send){
+//            sendMessage(benderObj = benderObj, messageEt = messageEt, benderImage = benderImage, textTxt = textTxt)
+//            hideKeyboard(activity = this)
+//        }
+        if (view?.id == R.id.iv_send) {
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+            messageEt.setText("")
+            val (r, g, b) = color
+            benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+            textTxt.text = phrase
         }
+    }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            hideKeyboard()
+            onClick(sendBtn)
+            return true
+        }
+        return false
     }
 }

@@ -58,11 +58,11 @@ object Utils {
         return "$first$last".toUpperCase()
     }
 
-    fun sendMessage(benderObj : Bender, messageEt : EditText?, benderImage : ImageView?, textTxt : TextView?){
-        val (phrase, color) = benderObj.validationResponseFormat(messageEt?.text.toString())//.toLowerCase()) //приводим к нижнему регистору
-        messageEt?.setText("")
-        val (r,g,b) = color
-        benderImage?.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
-        textTxt?.text = phrase
-    }
+//    fun sendMessage(benderObj : Bender, messageEt : EditText?, benderImage : ImageView?, textTxt : TextView?){
+//        val (phrase, color) = benderObj.listenAnswer(messageEt?.text.toString())//.toLowerCase()) //приводим к нижнему регистору
+//        messageEt?.setText("")
+//        val (r,g,b) = color
+//        benderImage?.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
+//        textTxt?.text = phrase
+//    }
 }
