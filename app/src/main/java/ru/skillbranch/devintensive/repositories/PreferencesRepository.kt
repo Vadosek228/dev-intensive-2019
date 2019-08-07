@@ -8,7 +8,7 @@ import ru.skillbranch.devintensive.App
 import ru.skillbranch.devintensive.models.Profile
 
 //реализация сохранения данных в ПреференсисРепозитории
-object PreferenesRepository {
+object PreferencesRepository {
     private const val FIRST_NAME = "FIRST_NAME"
     private const val LAST_NAME = "LAST_NAME"
     private const val ABOUT = "ABOUT"
@@ -21,6 +21,12 @@ object PreferenesRepository {
         val ctx = App.applicationContext()//обратились к контексту приложения и передали ее в контекст менеджер для получения дефолтного значения
         PreferenceManager.getDefaultSharedPreferences(ctx)
     }
+
+    fun saveAppTheme(theme: Int) {
+        putValue(APP_THEME to theme)
+    }
+
+    fun getAppTheme() : Int = pref.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_NO)
 
     fun getProfile(): Profile = Profile(
         pref.getString(FIRST_NAME, "")!!,
@@ -45,9 +51,8 @@ object PreferenesRepository {
     //метод для записи и сохранения данных в SharedPreference
     private fun putValue(pair: Pair<String, Any>) = with(pref.edit()){
         val key = pair.first
-        val value = pair.second
 
-        when(value){
+        when(val value = pair.second){
             is String -> putString(key, value)
             is Int -> putInt(key, value)
             is Boolean -> putBoolean(key, value)
@@ -58,11 +63,5 @@ object PreferenesRepository {
 
         apply()
     }
-
-    fun saveAppTheme(theme: Int) {
-        putValue(APP_THEME to theme)
-    }
-
-    fun getAppTheme() : Int = pref.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_NO)
 
 }

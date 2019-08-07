@@ -3,7 +3,7 @@ package ru.skillbranch.devintensive
 import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import ru.skillbranch.devintensive.repositories.PreferenesRepository
+import ru.skillbranch.devintensive.repositories.PreferencesRepository
 
 //единная точка входа. Класс, который вызывается при старте приложения
 //в нем создаем объект контекста, при старте приложения
@@ -23,7 +23,7 @@ class App : Application(){
     override fun onCreate() {
         super.onCreate()
         //установка текущей темы без пересборки
-        PreferenesRepository.getAppTheme().also {
+        PreferencesRepository.getAppTheme().also {
             AppCompatDelegate.setDefaultNightMode(it)
         }
     }
